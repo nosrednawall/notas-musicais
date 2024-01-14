@@ -5,7 +5,7 @@ Arrumar - Agir - Garantir
 """
 import re
 
-from pytest import raises
+from pytest import mark, raises
 
 from notas_musicais.escalas import ESCALAS, NOTAS, escala
 
@@ -41,3 +41,35 @@ def test_deve_retornar_um_erro_dizendo_que_a_escala_nao_existe():
     )
     with raises(KeyError, match=re.escape(mensagem_de_erro)):
         escala(tonica, tonalidade)
+
+
+@mark.parametrize(
+    'tonica,tonalidade, esperado',
+    [
+        ('C', 'maior', ['C', 'D', 'E', 'F', 'G', 'A', 'B']),
+        ('C#', 'maior', ['C#', 'D#', 'F', 'F#', 'G#', 'A#', 'C']),
+        ('D', 'maior', ['D', 'E', 'F#', 'G', 'A', 'B', 'C#']),
+        ('D#', 'maior', ['D#', 'F', 'G', 'G#', 'A#', 'C', 'D']),
+        ('E', 'maior', ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#']),
+        ('F', 'maior', ['F', 'G', 'A', 'A#', 'C', 'D', 'E']),
+        ('F#', 'maior', ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'F']),
+        ('G', 'maior', ['G', 'A', 'B', 'C', 'D', 'E', 'F#']),
+        ('G#', 'maior', ['G#', 'A#', 'C', 'C#', 'D#', 'F', 'G']),
+        ('A', 'maior', ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']),
+        ('A#', 'maior', ['A#', 'C', 'D', 'D#', 'F', 'G', 'A']),
+        ('B', 'maior', ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#']),
+    ],
+)
+def test_deve_retornar_as_notas_corretas(tonica, tonalidade, esperado):
+    resultado = escala(tonica, tonalidade)
+    assert resultado['notas'] == esperado
+
+
+def test_deve_retornar_os_setes_graus():
+    tonica = 'C'
+    tonalidade = 'maior'
+    esperado = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
+
+    resultado = escala(tonica, tonalidade)
+
+    assert resultado['graus'] == esperado
