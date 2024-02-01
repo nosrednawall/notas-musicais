@@ -27,3 +27,8 @@ def test_escala_cli_deve_conter_as_notas_na_resposta_de_fa(nota):
 def test_escala_cli_deve_conter_todos_os_graus(grau):
     result = runner.invoke(app)
     assert grau in result.stdout
+
+
+def test_ola_mundo():
+    result: int = '123'
+    assert result == '123'

@@ -8,9 +8,10 @@ console = Console()
 app = Typer()
 
 
+# sa ca mo to
 @app.command()
 def escalas(
-    tonica: str = Argument('c', help='Tônica da escala'),
+    tonica: str = Argument('c', help='Tônica da escala eskada'),
     tonalidade: str = Argument('maior', help='Tonalidade da escala'),
 ):
     table = Table()
